@@ -1,5 +1,9 @@
 package oodp;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
+
 //메뉴 관리 CLASS
 class Menu_Management extends Menu{
 
@@ -19,34 +23,23 @@ class Menu_Management extends Menu{
  // function role : 메뉴삭제
  // delete를 통해 삭제할 값이 넘어온다
  // 해당값이 list에 존재하면 지운다
- public static int deleteMenu(Menu[] list, Menu delete){
+ public static int deleteMenu(ArrayList<Menu> mMenuList, Menu delete){
      int i;
      int result = 0;
-     for(i = 0; i < list.length; i++)
-     {
-         if(list[i].menuPrice == 0){
-         return result;
+     Menu menu = new Menu();
+     
+     Iterator<Menu> iter = mMenuList.iterator();
+	 i = 0;
+	 while (iter.hasNext()) {
+		 menu = (Menu)iter.next();
+         if(menu.menuList.equals(delete.menuList)&&menu.menuSection.equals(delete.menuSection)&&menu.menuPrice == delete.menuPrice){
+        	 mMenuList.remove(i);
+    		 result = 1;
+    		 break;
          }
-         if((list[i].menuSection.equals(delete.menuSection)) && (list[i].menuList.equals(delete.menuList)) &&
-                 (list[i].menuPrice == delete.menuPrice)) {
-             result = 1;
-             break;
-         }
-
-     }
-     for(; i < list.length;i++)
-     {
-         if(i == list.length - 1) {
-             list[i].menuSection = null;
-             list[i].menuList = null;
-             list[i].menuPrice =0;
-         }
-         else{
-             list[i].menuSection = list[i+1].menuSection;
-             list[i].menuList = list[i+1].menuList;
-             list[i].menuPrice = list[i+1].menuPrice;
-         }
-     }
+         i++;
+     }   
+ 
      return result;
  }
  public void modifyMenu(){
