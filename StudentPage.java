@@ -7,6 +7,7 @@ import oodp.copy2.Menu;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 
 class StudentPage extends JPanel implements ActionListener
@@ -46,12 +47,29 @@ class StudentPage extends JPanel implements ActionListener
         Object obj = e.getSource();
         // 일반 메뉴보기를 눌렀을 때
         if(obj == generalMenu){
+        	
+			Iterator<Menu> iter = mMenuList.iterator();
+			int i = 0;
+			while (iter.hasNext()) {
+		        Menu string = (Menu)iter.next();
+		        mJLabelList.add(new JLabel(""));
+                add(mJLabelList.get(i++));
+		    }
+			
             Menu_View.generalMenu(mMenuList,mJLabelList);
             System.out.println("generalMenu");
 
         }
         // 추천 메뉴보기를 눌렀을 때
         else if(obj == recommendMenu){
+        	Menu menu = new Menu();
+			Iterator<Menu> iter2 = mMenuList.iterator();
+			int i = 0;
+			while (iter2.hasNext()) {
+		         menu = (Menu)iter2.next();
+              mJLabelList.get(i++).setText("");
+
+		    }		
             Menu_View.recommendMenu(mMenuList,mJLabelList);
             System.out.println("recommendMenu");
 

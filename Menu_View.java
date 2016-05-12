@@ -15,12 +15,13 @@ class Menu_View{
  // list에 있는 모든 메뉴를 보여준다
  public static void generalMenu(ArrayList<Menu> mMenuList, ArrayList<JLabel> mJLabelList){
 		Iterator<Menu> iter = mMenuList.iterator();
-		Menu menu = new Menu();
 		int i = 0;
+		Menu menu = new Menu();
 		while (iter.hasNext()) {
 	         menu = (Menu)iter.next();
-	         mJLabelList.get(i++).setText(menu.menuSection+menu.menuList+menu.menuPrice+"\n");
-	    }		
+       mJLabelList.get(i++).setText(menu.menuSection+menu.menuList+menu.menuPrice+"\n");
+
+	    }				
  }
 
  // function name : recommendMenu()
@@ -33,10 +34,7 @@ class Menu_View{
      Random random = new Random();
 		Iterator<Menu> iter = mMenuList.iterator();
 		i = 0;
-		while (iter.hasNext()) {
-	        Menu string = (Menu)iter.next();
-	        mJLabelList.add(new JLabel(""));
-	    }
+	
 
          randomNum = random.nextInt(mMenuList.size()-1);
          Menu menu = new Menu();
