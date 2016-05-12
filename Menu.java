@@ -34,37 +34,4 @@ class Menu{
 	     this.menuList = menuList;
 	     this.menuPrice = menuPrice;
 	 }
-	 
-		 
-	 // menu 초기 설정
-	 public static void initialMenu(ArrayList<Menu> mMenuList){
-		   Connection conn = null;
-		   Menu val = new Menu();
-		    try
-		     {
-				Class.forName("com.mysql.jdbc.Driver").newInstance();
-		        conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/project", "root", "gksehdeo357");
-				if(!conn.isClosed()){
-					System.out.println("Successfully connected to MySQL server...");
-					Statement s = conn.createStatement();
-					s.executeQuery("SELECT *" + "FROM menu");
-					ResultSet rs = s.getResultSet();
-					while(rs.next()){
-						val.menuSection = rs.getString("section");
-						val.menuList = rs.getString("list");
-						val.menuPrice = rs.getInt("price");
-						val.curNum = rs.getInt("cur_num");
-						val.soldNum =rs.getInt("sold_num");
-						mMenuList.add(new Menu(val));
-						
-					}
-				
-					
-						
-				}
-		     }
-		     catch(Exception exc)
-		    {			System.err.println("Exception: " + exc.getMessage());
-		    }
-	 }
 }

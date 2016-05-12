@@ -21,7 +21,7 @@ class AdminPage extends JPanel implements ActionListener
 
     AdminPage()
     {
-        Menu.initialMenu(mMenuList);
+        Menu_Management.initialMenu(mMenuList);
 
         setSize(400, 300);
 
