@@ -1,8 +1,12 @@
 package oodp;
 
 import javax.swing.*;
+
+import oodp.copy2.Menu;
+
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 
 class StudentPage extends JPanel implements ActionListener
@@ -10,23 +14,19 @@ class StudentPage extends JPanel implements ActionListener
     JButton generalMenu = new JButton("일반메뉴 보기");
     JButton recommendMenu = new JButton("추천메뉴 보기");
 
-    Menu[] list = new Menu[10];
-    JLabel[] label = new JLabel[10];
+    ArrayList<Menu> mMenuList = new ArrayList<Menu>();
+    ArrayList<JLabel> mJLabelList = new ArrayList<JLabel>();
 
     StudentPage()
     {
-        Menu.assignClass(list);
-        Menu.initialMenu(list);
+        Menu_Management.initialMenu(mMenuList);
 
         setSize(400, 300);
 
 
         add(generalMenu);
         add(recommendMenu);
-        for(int i = 0; i < list.length; i++){
-            label[i] = new JLabel("");
-            add(label[i]);
-        }
+      
 
         generalMenu.addActionListener(this);
         recommendMenu.addActionListener(this);
@@ -46,13 +46,13 @@ class StudentPage extends JPanel implements ActionListener
         Object obj = e.getSource();
         // 일반 메뉴보기를 눌렀을 때
         if(obj == generalMenu){
-            Menu_View.generalMenu(list,label);
+            Menu_View.generalMenu(mMenuList,mJLabelList);
             System.out.println("generalMenu");
 
         }
         // 추천 메뉴보기를 눌렀을 때
         else if(obj == recommendMenu){
-            Menu_View.recommendMenu(list,label);
+            Menu_View.recommendMenu(mMenuList,mJLabelList);
             System.out.println("recommendMenu");
 
         }
