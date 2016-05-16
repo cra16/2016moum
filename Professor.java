@@ -5,7 +5,6 @@ public class Professor implements Customer{
 	public String id;
     private String password;
     private String name;
-    private int point;
     private int coupon;
     
 	public Professor(String id, String password, String name, int coupon){
@@ -15,7 +14,7 @@ public class Professor implements Customer{
 	     this.coupon = coupon;
 	}
 	
-	 public int getCoupon(){
+	 	public int getCoupon(){
 	    	return this.coupon;
 	    }
 	    public void setCoupon(int coupon){
@@ -32,6 +31,13 @@ public class Professor implements Customer{
 	    
 	    public String getName(){
 	    	return this.name;
+	    }
+	    
+	    public String getId(){
+	    	return this.id;
+	    }
+	    public String getPassword(){
+	    	return this.password;
 	    }
 	
 }

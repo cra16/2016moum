@@ -63,19 +63,16 @@ public class Student implements Customer{
     	
     	return this.coupon;
     }
-    
+    public String getId(){
+    	return this.id;
+    }
     public String getName(){
     	return this.name;
     }
+    public String getPassword(){
+    	return this.password;
+    }
 
-//    public void Sales_Management(Menu selected){
-//        //매출 관리
-//        salesAmount+=selected.menuPrice;
-//
-//
-//    }
-//
-//    int salesAmount=0;
 
 
 }
