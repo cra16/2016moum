@@ -100,7 +100,7 @@ public class MainBoard extends JFrame implements ActionListener
 
      try
      {
-        conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/project", "root", "bitnami");
+        conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/project", "root", "298383");
         stmt=conn.createStatement();
      }
      catch(Exception exc){}
