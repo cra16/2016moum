@@ -18,7 +18,7 @@ public class Account extends JPanel implements ActionListener
 	public Account()
 	{
 	
-		student = new Student(21200534,"이세계","asdf");
+		//student = new Student(21200534,"이세계","asdf");
 		
 		
 		

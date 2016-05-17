@@ -20,7 +20,8 @@ public class Payment extends MainBoard{
    {
         Connection conn = null;
 
-        String user_id =  userText.getText();        
+        Customer user=MainBoard.getInstanceCustomer();        
+        
         ResultSet is_login=null, inventory=null, account=null;
         
         try
@@ -32,30 +33,33 @@ public class Payment extends MainBoard{
                  
                  PreparedStatement s;
                 
-                 JOptionPane.showMessageDialog(null, user_id);
-                  
-                 s = conn.prepareStatement
-                       ("SELECT id FROM stuinfo WHERE id=?"); 
-                 s.setString(1, user_id);
-                 is_login=s.executeQuery();
-                
-                 
-                 if(is_login.getString("id")!=null)
+                 if(!user.getId().equals("Outsider"))
                  {
-                    JOptionPane.showMessageDialog(null, inventory.getInt("cur_num"));
-                        
+	                 s = conn.prepareStatement
+	                       ("SELECT id FROM stuinfo WHERE id=?"); 
+	                 s.setString(1, user.getId());
+	                 is_login=s.executeQuery();
+	                 
+	                 is_login.next();
+                 
+                 
+                    
                     s = conn.prepareStatement
                           ("SELECT cur_num FROM menu WHERE list=?"); 
                     s.setString(1, menu.menuList);
                     inventory=s.executeQuery();
-                    
-                    JOptionPane.showMessageDialog(null, account.getInt("point"));
+                    inventory.next();
+                       
                      
                     s = conn.prepareStatement
                           ("SELECT point FROM stuinfo WHERE id=?"); 
-                    s.setString(1, user_id);
+                    s.setString(1, user.getId());
                     account=s.executeQuery();
-                       
+                    
+                    account.next();
+                    
+                    
+                    
                     if(inventory.getInt("cur_num")>0 && account.getInt("point") >= menu.menuPrice)
                     {
    
@@ -69,9 +73,11 @@ public class Payment extends MainBoard{
                        //현재 계좌 정보 확인,
                        s = conn.prepareStatement
                              ("UPDATE stuinfo SET point=point-"+menu.menuPrice+" WHERE id=?");
-                       s.setString(1, user_id);
+                       s.setString(1, user.getId());
                        s.executeUpdate();
-                       
+                       JOptionPane.showMessageDialog(null, "결제 완료 되었습니다.");
+                       s.close();
+                                 
                     }
                     else if (inventory.getInt("cur_num")>0)
                     {
@@ -88,7 +94,6 @@ public class Payment extends MainBoard{
                     JOptionPane.showMessageDialog(null, "포인트를 이용할 수 없습니다.");
                  }
                  
-                 s.close();
              } 
           } 
           catch(Exception exc)
@@ -102,9 +107,13 @@ public class Payment extends MainBoard{
    {
         Connection conn = null;
 
-           String user_id =  userText.getText();        
-           ResultSet is_login=null, inventory=null,account=null;
+        	Customer user=MainBoard.getInstanceCustomer();        
            
+        	ResultSet is_login=null, inventory=null;
+
+            String input;
+            int money;
+            
            try
               {
                  Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -113,28 +122,31 @@ public class Payment extends MainBoard{
                     System.out.println("Successfully connected to MySQL server...");
                     
                     PreparedStatement s;
-                                       
-                       
-                    s = conn.prepareStatement
-                          ("SELECT id FROM stuinfo WHERE id=?"); 
-                    s.setString(1, user_id);
-                    is_login=s.executeQuery();
-                   
-                    if(is_login.getString("id")!=null)
-                    {
-                          
+                         
+                    
+                    if(!user.getId().equals("Outsider"))
+                    {   
+                    	
+	                    s = conn.prepareStatement
+	                          ("SELECT id FROM stuinfo WHERE id=?"); 
+	                    s.setString(1, user.getId());
+	                    is_login=s.executeQuery();
+	                    
+	                    is_login.next();
+	                    
+                    
+                    	      
                        s = conn.prepareStatement
                              ("SELECT cur_num FROM menu WHERE list=?"); 
                        s.setString(1, menu.menuList);
                        inventory=s.executeQuery();
                        
-                      
-                       s = conn.prepareStatement
-                             ("SELECT cash FROM stuinfo WHERE id=?"); 
-                       s.setString(1, user_id);
-                       account=s.executeQuery();
+                       inventory.next();
                           
-                       if(inventory.getInt("cur_num")>0 && account.getInt("cash") >= menu.menuPrice)
+                       input = JOptionPane.showInputDialog("현재 가지고 있는 현금의 액수를 입력하여 주세요.");
+                       money = Integer.parseInt(input);
+
+                       if(inventory.getInt("cur_num")>0 && money >= menu.menuPrice)
                        {
       
                           //남은 재고 확인
@@ -143,22 +155,16 @@ public class Payment extends MainBoard{
                           s.setString(1, menu.menuList);
                           s.executeUpdate();
                          
+                          JOptionPane.showMessageDialog(null, "결제가 완료되었습니다.\n현재 잔액은 "+(money-menu.menuPrice)+"입니다.");
+                          
       
-                          //현재 계좌 정보 확인,
-                          s = conn.prepareStatement
-                                ("UPDATE stuinfo SET cash=cash-? WHERE id=?");
-                          s.setInt(1, menu.menuPrice);
-                          s.setString(2, user_id);
-                          
-                          s.executeUpdate();
-                          
                        }
                        else if (inventory.getInt("cur_num")>0)
                        {
                           JOptionPane.showMessageDialog(null, "현금이 부족합니다.");
                           
                        }
-                       else if( account.getInt("cash") >= menu.menuPrice)
+                       else if( money >= menu.menuPrice)
                        {
                           JOptionPane.showMessageDialog(null, "재고가 부족합니다.");
                        }
@@ -166,13 +172,18 @@ public class Payment extends MainBoard{
                    else
                    {
                       
+
                        s = conn.prepareStatement
                              ("SELECT cur_num FROM menu WHERE list=?"); 
                        s.setString(1, menu.menuList);
                        inventory=s.executeQuery();
                        
+                       inventory.next();
+                          
+                       input = JOptionPane.showInputDialog("현재 가지고 있는 현금의 액수를 입력하여 주세요.");
+                       money = Integer.parseInt(input);
 
-                       if(inventory.getInt("cur_num")>0 )
+                       if(inventory.getInt("cur_num")>0 && money >= menu.menuPrice)
                        {
       
                           //남은 재고 확인
@@ -180,10 +191,20 @@ public class Payment extends MainBoard{
                                 ("UPDATE menu SET sold_num =sold_num+1,cur_num=cur_num-1 WHERE list=?"); 
                           s.setString(1, menu.menuList);
                           s.executeUpdate();
+                         
+                          JOptionPane.showMessageDialog(null, "결제가 완료되었습니다.\n현재 잔액은 "+(money-menu.menuPrice)+"입니다.");
                           
-                          JOptionPane.showMessageDialog(null, "결제 되었습니다.");
+      
                        }
-                       
+                       else if (inventory.getInt("cur_num")>0)
+                       {
+                          JOptionPane.showMessageDialog(null, "현금이 부족합니다.");
+                          
+                       }
+                       else if( money >= menu.menuPrice)
+                       {
+                          JOptionPane.showMessageDialog(null, "재고가 부족합니다.");
+                       }
                    }
                     
                     s.close();
@@ -202,37 +223,47 @@ public class Payment extends MainBoard{
    {
         Connection conn = null;
 
-        String user_id =  userText.getText();        
+        Customer user=MainBoard.getInstanceCustomer();        
         ResultSet is_login=null, inventory=null,account=null;
         
         try
            {
-              Class.forName("com.mysql.jdbc.Driver").newInstance();
+
+        	  Class.forName("com.mysql.jdbc.Driver").newInstance();
               conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/project", "root", "298383");
               if(!conn.isClosed()){
                  System.out.println("Successfully connected to MySQL server...");
                  
                  PreparedStatement s;
-                
-                 s = conn.prepareStatement
-                       ("SELECT id FROM stuinfo WHERE id=?"); 
-                 s.setString(1, user_id);
-                 is_login=s.executeQuery();
-                
-                 if(is_login.getString("id")!=null)
+                 
+
+                 
+                 
+                 if(!user.getId().equalsIgnoreCase("Outsider"))
                  {
-                    
+                	 s = conn.prepareStatement
+                             ("SELECT id FROM stuinfo WHERE id=?"); 
+                       s.setString(1, user.getId());
+                       is_login=s.executeQuery();
+                       
+                       is_login.next();
+              
+                 
+               
+
                     
                     s = conn.prepareStatement
                           ("SELECT cur_num FROM menu WHERE list=?"); 
                     s.setString(1, menu.menuList);
                     inventory=s.executeQuery();
+                    inventory.next();
                     
                    
                     s = conn.prepareStatement
                           ("SELECT coupon FROM stuinfo WHERE id=?"); 
-                    s.setString(1, user_id);
+                    s.setString(1, user.getId());
                     account=s.executeQuery();
+                    account.next();
                        
                     if(inventory.getInt("cur_num")>0 && account.getInt("coupon") >= 1)
                     {
@@ -247,9 +278,11 @@ public class Payment extends MainBoard{
                        //현재 계좌 정보 확인,
                        s = conn.prepareStatement
                              ("UPDATE stuinfo SET coupon=coupon-1 WHERE id=?");
-                       s.setString(1, user_id);
+                       s.setString(1, user.getId());
                        s.executeUpdate();
                        
+                       JOptionPane.showMessageDialog(null, "쿠폰  결제가 완료되었습니다.");
+                       s.close();
                     }
                     else if (inventory.getInt("cur_num")>0)
                     {
@@ -261,8 +294,13 @@ public class Payment extends MainBoard{
                        JOptionPane.showMessageDialog(null, "재고가 부족합니다.");
                     }
                  }
-                 s.close();
-             } 
+                 else
+                 {
+                	   JOptionPane.showMessageDialog(null, "쿠폰을 사용할 수 없습니다."); 
+                 }
+                
+              }
+              
           } 
           catch(Exception exc)
           {   

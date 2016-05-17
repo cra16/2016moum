@@ -8,5 +8,6 @@ public interface Customer {
 	 
 	 public abstract String getName();
 	 public String getId();
+	 public void setIdOutsider();
 	 public String getPassword();
 }

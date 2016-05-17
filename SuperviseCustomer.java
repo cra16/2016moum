@@ -31,7 +31,7 @@ public class SuperviseCustomer
 	           
 	       		while(rs.next()){
 	       			if(rs.getInt("identifier")==1){
-	       				Student newStudent = 	new Student(rs.getString("id"),rs.getString("password"),rs.getString("name"),rs.getInt("point"),rs.getInt("coupon"));
+	       				Student newStudent = 	new Student(rs.getString("id"),rs.getString("password"),rs.getInt("point"),rs.getInt("coupon"));
 	       				customer.add((Customer)newStudent);
 	       				number_of_student++;
 	       			}
@@ -125,7 +125,7 @@ public class SuperviseCustomer
 
 					System.out.println(qry.getInt("point"));
 
-					Customer theStu = new Student(temp.getId(),temp.getName(),temp.getPassword(),qry.getInt("point"),temp.getCoupon());
+					Customer theStu = new Student(temp.getId(),temp.getPassword(),qry.getInt("point"),temp.getCoupon());
 					return theStu;
 					
 					}

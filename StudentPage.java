@@ -15,8 +15,8 @@ class StudentPage extends JPanel implements ActionListener
 
     StudentPage()
     {
-        Menu.assignClass(list);
-        Menu.initialMenu(list);
+      //  Menu.assignClass(list);
+        //Menu.initialMenu(list);
 
         setSize(400, 300);
 

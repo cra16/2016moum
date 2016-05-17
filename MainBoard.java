@@ -103,7 +103,9 @@ public class MainBoard extends JFrame implements ActionListener
         conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/project", "root", "298383");
         stmt=conn.createStatement();
      }
-     catch(Exception exc){}
+     catch(Exception exc){
+    	 
+     }
      
       int width=800;
 
@@ -166,6 +168,7 @@ public class MainBoard extends JFrame implements ActionListener
    
    public void stu_board()
    {
+	   
      try
      {
      
@@ -173,25 +176,31 @@ public class MainBoard extends JFrame implements ActionListener
      
         if(!(re.next()))
         {
-            JOptionPane.showMessageDialog(null, "잘못된 로그인입니다.");
+        	
+            
+        	JOptionPane.showMessageDialog(null, "잘못된 로그인입니다.");
             userText.setText("");
             pwText.setText("");
         }
-        
         else
-        {
+        {	
         	ResultSet rs = stmt.executeQuery("SELECT * FROM stuinfo");
+            
         	while(rs.next()){
+        		
         		if(rs.getString("id").equals(userText.getText())){
-        			 single_Customer = new Student(rs.getString("id"),rs.getString("password"),rs.getString("name"),rs.getInt("point"),rs.getInt("coupon"));
+        			single_Customer = new Student(rs.getString("id"),rs.getString("password"),rs.getInt("point"),rs.getInt("coupon"));
+                     	 
         		}
         	}
-                      
+        	
+        
             outsider_board();
            
         }
      }
-     catch(Exception exp){}
+     catch(Exception exp){
+     }
    
    }
 
@@ -302,7 +311,7 @@ public class MainBoard extends JFrame implements ActionListener
        repaint();
 
        board.setLayout(null);
-
+       
        JPanel stu_panel=new JPanel();
        stu_panel.setLayout(null);
        stu_panel.setBounds(0,0,150,600);
@@ -312,7 +321,10 @@ public class MainBoard extends JFrame implements ActionListener
        
        if((((userText.getText()).isEmpty())==true) ||(((pwText.getText()).isEmpty())==true))
       {
-          JLabel upperLabel=new JLabel("Welcome! Customer: outsider");
+    	  JLabel upperLabel=new JLabel("Welcome! Customer: outsider");
+          single_Customer= new Student("Outsider","******",-1,-1);
+         
+       
           upperLabel.setFont(f);
           upperLabel.setBounds(190,10,260,20);
           upperBar.add(upperLabel);
@@ -350,7 +362,7 @@ public class MainBoard extends JFrame implements ActionListener
        btn1.setBounds(0,0,150,140);
        stu_panel.add(btn1);
 
-       JButton btn2=new JButton("Making Payment");
+       btn2=new JButton("Making Payment");
        btn2.setBounds(0,140,150,140);
        SelectMenu temp2=new SelectMenu();
        btn2.addActionListener(temp2);
@@ -362,8 +374,8 @@ public class MainBoard extends JFrame implements ActionListener
 
        JButton btn4=new JButton("My Account");
        btn4.setBounds(0,420,150,140);
-       Account temp4=new Account();
-       btn4.addActionListener(temp4);
+     //  Account temp4=new Account();
+      // btn4.addActionListener(temp4);
        stu_panel.add(btn4);
 
        board.add(stu_panel); 
@@ -421,6 +433,7 @@ public class MainBoard extends JFrame implements ActionListener
    private JButton registerButton;
    private JButton outsider;
    private JButton logout;
+   public static JButton btn2;
    private static Connection conn;
    private static Statement stmt;
    

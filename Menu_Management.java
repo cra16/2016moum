@@ -122,7 +122,7 @@ class Menu_Management extends Menu{
 	    try
 	     {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
-	        conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/project", "root", "gksehdeo357");
+	        conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/project", "root", "298383");
 			if(!conn.isClosed()){
 				System.out.println("Successfully connected to MySQL server...");
 				Statement s = conn.createStatement();

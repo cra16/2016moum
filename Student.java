@@ -4,14 +4,17 @@ import javax.swing.*;
 
 public class Student implements Customer{
 
-    public Student(String id, String password, String name,int point,int coupon){
-        this.id=id;
+    public Student(String id, String password, int point,int coupon){
+
+    	this.id=id;
         this.password=password;
-        this.name=name;
+        
         this.point= point;
         this.coupon = coupon;
+
     }
 
+    
 
     public String id;
     private String password;
@@ -65,6 +68,9 @@ public class Student implements Customer{
     }
     public String getId(){
     	return this.id;
+    }
+    public void setIdOutsider(){
+    	this.id="Outsider";
     }
     public String getName(){
     	return this.name;
