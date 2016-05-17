@@ -147,7 +147,8 @@ public class SelectMenu extends JPanel implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        if(e.getSource().equals(MainBoard.btn2))
+    	
+    	if(e.getSource().equals(MainBoard.btn2))
         {
 	    	MainBoard.board.remove(MainBoard.board_panel);
 	        MainBoard.board.repaint();
@@ -157,9 +158,11 @@ public class SelectMenu extends JPanel implements ActionListener
 	        MainBoard.board_panel.setBackground(Color.white);
 	        MainBoard.board_panel.setBounds(150,40,650,560);
 	        MainBoard.board.add(MainBoard.board_panel);
-        }  
-      
-     
+        }
+    	
+    
+        
+        
     
       int i=0, use=0;
 
