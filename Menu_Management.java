@@ -30,7 +30,7 @@ class Menu_Management extends Menu{
      try
      {
     	 Class.forName("com.mysql.jdbc.Driver").newInstance();
-    	 conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/project", "root", "gksehdeo357");
+    	 conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/project", "root", "bitnami");
     	 if(!conn.isClosed()){
     		 System.out.println("Successfully connected to MySQL server...");
     		 PreparedStatement s;
@@ -87,7 +87,7 @@ class Menu_Management extends Menu{
      try
      {
     	 Class.forName("com.mysql.jdbc.Driver").newInstance();
-    	 conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/project", "root", "gksehdeo357");
+    	 conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/project", "root", "bitnami");
     	 if(!conn.isClosed()){
     		 System.out.println("Successfully connected to MySQL server...");
     		 PreparedStatement s;
@@ -122,7 +122,7 @@ class Menu_Management extends Menu{
 	    try
 	     {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
-	        conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/project", "root", "gksehdeo357");
+	        conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/project", "root", "bitnami");
 			if(!conn.isClosed()){
 				System.out.println("Successfully connected to MySQL server...");
 				Statement s = conn.createStatement();
@@ -147,3 +147,7 @@ class Menu_Management extends Menu{
  
  
 }
+
+
+
+

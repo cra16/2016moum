@@ -2,37 +2,38 @@ package oodp;
 
 import javax.swing.*;
 
-public class Student{
+public class Student implements Customer{
 
-    public Student(int student_id, String password, String student_name){
-        this.student_id=student_id;
+    public Student(String id, String password, int point,int coupon){
+
+    	this.id=id;
         this.password=password;
-        this.student_name=student_name;
-        point=10000;
-        use_point=false;
+        this.point= point;
+        this.coupon = coupon;
+
     }
 
+    
 
-    public int student_id;
-    public String password;
-    public String student_name;
-    public boolean use_point;
-    public int point;
-    public char sex;
-    public String phone_number;
+    public String id;
+    private String password;
 
-
-
+    private int point;
+    private int coupon;
+    
+    
+    
+    
     public void PaymentPoint(Menu selected){
         //결제 회원(Student)의 정보와, 결제하고자 하는 물품의 정보를 받아옴
 
-        if(use_point==true) {//포인트 이용
+        //포인트 이용
 
             if (point >= selected.menuPrice)
             {
                 point-=selected.menuPrice;
 
-                Sales_Management(selected);
+                //Sales_Management(selected);
 
             }else{
 
@@ -41,12 +42,7 @@ public class Student{
 
             }
 
-        }else{      //포인트 이용 X
-
-            //포인트를 이용할 수 없습니다.
-            JOptionPane.showMessageDialog(null, "포인트를 이용하고 있지 않습니다.");
-
-        }
+       
 
     }
     public int getPoint(){
@@ -54,21 +50,32 @@ public class Student{
     }
     public void setPoint(int point){
     	this.point = point;
-    	this.use_point = true;
     }
-    public boolean pointStatus(){
-    	return this.use_point;
+    public int getCoupon(){
+    	return this.coupon;
+    }
+    public void setCoupon(int coupon){
+    	this.coupon = coupon;
+    }
+    public int useCoupon(){
+    	if(this.coupon == 0)
+    		return -1;
+    	
+    	this.coupon--;
+    	
+    	return this.coupon;
+    }
+    public String getId(){
+    	return this.id;
+    }
+    public void setIdOutsider(){
+    	this.id="Outsider";
     }
 
-
-    public void Sales_Management(Menu selected){
-        //매출 관리
-        salesAmount+=selected.menuPrice;
-
-
+    public String getPassword(){
+    	return this.password;
     }
 
-    int salesAmount=0;
 
 
 }

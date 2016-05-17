@@ -2,8 +2,6 @@ package oodp;
 
 import javax.swing.*;
 
-import oodp.copy2.Menu;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;

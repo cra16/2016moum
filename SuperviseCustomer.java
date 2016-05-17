@@ -1,68 +1,113 @@
 package oodp;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
 
-public class SuperviseCustomer extends JPanel implements ActionListener
+
+import java.util.*;
+import java.sql.*;
+
+public class SuperviseCustomer
 {
 
-	private Customer customer;
-	private int status;
-	
-	JPanel panel = new JPanel();
-	
-	List list = new List(5, false);// customer list
-	List list2 = new List(5, false);//Not yet
-
-	JButton customerList = new JButton("customerList");
-	JButton button2 = new JButton("button2");
-
+	private static Connection conn;
+	private static Statement stmt;
+	private ResultSet rs;
+	private int number_of_student;
+	private int number_of_professor;
+	private ArrayList<Customer> customer;
+	private Iterator iterator;
 	
 	public SuperviseCustomer()
 	{
-	
-		customer = new Customer();
+		customer = new ArrayList<Customer>();
 		
-		//List에 항목 추가
-		for (int i=0;i<customer.getNumberOfStudent();i++)
-		list.add(Integer.toString(customer.students[i].student_id));
-		
-		// List2에 항목 추가
-		for (int i=0;i<customer.getNumberOfStudent();i++)
-			list2.add(customer.students[i].student_name);
-		
-		
-		panel.add(customerList,BorderLayout.SOUTH);
-		panel.add(button2,BorderLayout.SOUTH);
-
-		
-		customerList.addActionListener(this);
-		button2.addActionListener(this);
-
-		
+		try
+			{
+	           conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/project", "root", "bitnami");
+	           stmt=conn.createStatement();
+	           rs = stmt.executeQuery("SELECT * FROM stuinfo");	          
+	           
+	       		while(rs.next()){
+	       			if(rs.getInt("identifier")==1){
+	       				Student newStudent = 	new Student(rs.getString("id"),rs.getString("password"),rs.getInt("point"),rs.getInt("coupon"));
+	       				customer.add((Customer)newStudent);
+	       				number_of_student++;
+	       			}
+	       			else{
+	       				Professor newProfessor = 	new Professor(rs.getString("id"),rs.getString("password"),rs.getInt("coupon"));
+	    				customer.add(newProfessor);
+	    				number_of_professor++;
+	       			}
+	       			
+	       			iterator = customer.iterator();
+	       		}
+			}
+	        catch(Exception exc){}
+    	
 	}
+    
+		
+		public int getStudentNumber(){
+			return this.number_of_student;
+		}
+		public int getProfessorNumber(){
+			return this.number_of_professor;
+		}	
+		public int getCustomerNumber(){
+			return this.number_of_student + this.number_of_professor;
+		}
+
+		public String[] getStudentList(){
+			String[] studentList = new String[this.getStudentNumber()];
+			int count = 0;
+			for(Customer temp : customer){
+				if(temp instanceof Student){
+					studentList[count] = temp.getId();
+					count++;
+				}
+			}
+			
+			return studentList;
+		}
+		public String[] getProfessorList(){
+			String[] professortList = new String[this.getStudentNumber()];
+			int count = 0;
+			for(Customer temp : customer){
+				if(temp instanceof Professor){
+					professortList[count] = temp.getId();
+					count++;
+				}
+			}
+			
+			return professortList;
+		}
+		public Customer findById(String id){
+			for(Customer temp : customer){
+
+				if((temp instanceof Professor)&&temp.getId().equals(id)){
+					Customer theProf = new Professor(temp.getId(),temp.getPassword(),temp.getCoupon());
+					return theProf;
+				} 
+				if((temp instanceof Student)&&temp.getId().equals(id)){
+					try{
+					ResultSet qry = stmt.executeQuery("SELECT * FROM stuinfo");	    
+					while(qry.next()){
+		         		if(qry.getString("id").equals(id)){
+		         			Customer theStu = new Student(temp.getId(),temp.getPassword(),qry.getInt("point"),temp.getCoupon());
+							return theStu;
+		         		}
+		         	}
 	
-	public void actionPerformed(ActionEvent e){
-		Object event  = e.getSource();
+					
+					}
+					catch(Exception exc){}
+					
+				}
+			}
 
-	      MainBoard.board.remove(MainBoard.board_panel);
-	      MainBoard.board.repaint();
-	      MainBoard.board.revalidate();
-	      
-	      MainBoard.board_panel=this.panel;
-	      MainBoard.board_panel.setBackground(Color.white);
-	      MainBoard.board_panel.setBounds(150,40,650,560);
-	      MainBoard.board.add(MainBoard.board_panel);
-	      
-	      if(event == customerList){
-	    	  panel.add(list,BorderLayout.CENTER);
-	      }
-	      if(event == button2){
-	    	  panel.remove(list);
-	    	  panel.add(list2,BorderLayout.CENTER);
-	      }
-
-	}
+			return null;
+		}
 
 }
