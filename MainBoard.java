@@ -34,7 +34,7 @@ public class MainBoard extends JFrame implements ActionListener
       panel.setLayout(null);
       panel.setBounds(200,170,400,300);
 
-      JLabel greet=new JLabel("Welcome to CRA Restaurant!");
+      JLabel greet=new JLabel("Welcome to KKS Restaurant!");
       greet.setFont(new Font("Serif", Font.BOLD, 40));
       greet.setBounds(150,70,800,40);
 
@@ -136,7 +136,7 @@ public class MainBoard extends JFrame implements ActionListener
      if((group.getSelection().getActionCommand())=="student")
      {
          try{
-             stmt.executeUpdate("INSERT INTO stuinfo VALUES('"+userText.getText()+"', '"+pwText.getText()+"', 50000, 1, 3);");
+             stmt.executeUpdate("INSERT INTO stuinfo VALUES('"+userText.getText()+"', '"+pwText.getText()+"', 50000, 1, 1);");
              JOptionPane.showMessageDialog(null, "회원가입 되었습니다.");
              userText.setText("");
              pwText.setText("");       
@@ -148,7 +148,7 @@ public class MainBoard extends JFrame implements ActionListener
      {
          try{
             
-             stmt.executeUpdate("INSERT INTO stuinfo VALUES('"+userText.getText()+"', '"+pwText.getText()+"', 100000, 2, 5);");
+             stmt.executeUpdate("INSERT INTO stuinfo VALUES('"+userText.getText()+"', '"+pwText.getText()+"',0, 2, 2);");
              JOptionPane.showMessageDialog(null, "회원가입 되었습니다.");
              userText.setText("");
              pwText.setText("");       
