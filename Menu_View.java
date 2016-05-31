@@ -39,7 +39,22 @@ class Menu_View{
          randomNum = random.nextInt(mMenuList.size()-1);
          Menu menu = new Menu();
          menu = mMenuList.get(randomNum);
-         mJLabelList.get(randomNum).setText(menu.menuSection+menu.menuList+menu.menuPrice+"\n");   
+         
+         StringBuffer s = new StringBuffer();
+         s.append(menu.menuList);
+         s.append(menu.menuPrice);
+         
+ 		Display b1 = new StringDisplay(s.toString());
+ 		Display b2 = new SideBorder(b1,'&');
+ 		Display b3 = new FullBorder(b2);
+ 		b1.show();
+ 		b2.show();
+ 		b3.show();
+ 		s = b3.show2();
+         
+         
+         mJLabelList.get(randomNum).setText(s.toString());   
+
 
  }
 }
